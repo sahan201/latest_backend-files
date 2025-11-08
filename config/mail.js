@@ -18,7 +18,7 @@ const transporter = nodemailer.createTransport({
 transporter.verify(function (error, success) {
   if (error) {
     console.log("❌ Email configuration error:", error.message);
-    console.log("⚠️  Email functionality will not work. Using mock emails.");
+    console.log("⚠️  Email functionality will not work.");
   } else {
     console.log("✅ Email server is ready to send messages");
     console.log("📧 Sending from:", process.env.EMAIL_USER);
