@@ -6,6 +6,7 @@ import {
   updateInventoryItem,
   deleteInventoryItem,
   getLowStock,
+  sendOrder,
 } from '../controllers/inventoryController.js';
 import { authRequired, authorize } from '../middleware/auth.js';
 
@@ -28,5 +29,11 @@ router.put('/:id', authRequired, authorize('Manager'), updateInventoryItem);
 
 // Delete inventory item
 router.delete('/:id', authRequired, authorize('Manager'), deleteInventoryItem);
+
+// --- 2. ADD THIS NEW ROUTE AT THE END ---
+// @route   POST /api/inventory/:id/order
+// @desc    Send order for low stock item
+// @access  Private (Manager)
+router.post('/:id/order', authRequired, authorize('Manager'), sendOrder);
 
 export default router;

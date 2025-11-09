@@ -1,4 +1,10 @@
 import Inventory from "../models/Inventory.js";
+import twilio from 'twilio';
+
+const client = twilio(
+  process.env.TWILIO_ACCOUNT_SID, 
+  process.env.TWILIO_AUTH_TOKEN
+);
 
 // @desc    Get all inventory items
 // @route   GET /api/inventory
@@ -186,5 +192,63 @@ export const getLowStock = async (req, res) => {
   } catch (error) {
     console.error("Error fetching low stock:", error);
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+// @desc    Send order SMS for low stock item
+// @route   POST /api/inventory/:id/order
+// @access  Private (Manager)
+export const sendOrder = async (req, res) => {
+  try {
+    const { orderQuantity, phoneNumber } = req.body;
+    const item = await Inventory.findById(req.params.id);
+    console.log(phoneNumber);
+
+    if (!item) {
+      return res.status(404).json({ message: "Item not found" });
+    }
+
+    if (!orderQuantity || !phoneNumber) {
+      return res.status(400).json({ 
+        message: "Please provide orderQuantity and phoneNumber" 
+      });
+    }
+
+    // 3. THIS IS THE REAL SMS LOGIC
+    const orderId = `ORD-${Date.now()}`;
+    const messageBody = `
+🔧 INVENTORY ORDER - Vehicle Service Center
+Item: ${item.name}
+Part Number: ${item.partNumber || 'N/A'}
+Current Stock: ${item.quantity} ${item.unit}
+Order Quantity: ${orderQuantity} ${item.unit}
+Order ID: #${orderId}
+Ordered by: ${req.user.name}
+    `;
+
+    // Send the real SMS
+    const message = await client.messages.create({
+      body: messageBody,
+      from: process.env.TWILIO_PHONE_NUMBER, // Your Twilio number
+      to: phoneNumber                      // The hardware store's number
+    });
+
+    console.log(`Real SMS sent! Message SID: ${message.sid}`);
+
+    res.json({
+      success: true,
+      message: `Order SMS sent successfully to ${phoneNumber}`,
+      orderId: orderId,
+      messageSid: message.sid
+    });
+
+  } catch (error) {
+    // If Twilio fails (e.g., number is not verified), it will error out
+    console.error("Error sending real SMS:", error);
+    res.status(500).json({ 
+      message: "Server error while sending SMS",
+      error: error.message 
+    });
   }
 };
