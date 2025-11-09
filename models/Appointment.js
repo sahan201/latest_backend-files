@@ -49,7 +49,7 @@ const appointmentSchema = new mongoose.Schema(
       required: [true, 'Please specify a service type.'],
     },
     date: {
-      type: String,
+      type: Date,
       required: true,
     },
     time: {
@@ -66,7 +66,7 @@ const appointmentSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
-    notes: {
+    description: {
       type: String,
     },
     // Digital Job Card Fields
