@@ -173,8 +173,9 @@ export const updateComplaint = async (req, res) => {
     await complaint.populate('resolvedBy', 'name');
 
     // Send email to customer
-    if (response || status === 'Resolved' || status === 'Closed') {
+    if ((response || status === 'Resolved' || status === 'Closed') && complaint.customer) {
       try {
+        
         const emailText = `Dear ${complaint.customer.name},
 
 Your complaint has been updated:
@@ -197,6 +198,8 @@ Vehicle Service Center Management`;
       } catch (emailError) {
         console.error('Failed to send complaint update email:', emailError);
       }
+    }else if (!complaint.customer) {
+        console.warn('Complaint updated, but customer details missing (user might be deleted). No email sent.');
     }
 
     res.json({
