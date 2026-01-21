@@ -163,10 +163,3 @@ You can use tools like:
 - cURL commands
 
 
-
-
-ISC
-
-## 👥 Support
-
-For issues or questions, please check the code comments or create an issue.
