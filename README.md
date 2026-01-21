@@ -2,7 +2,7 @@
 
 A complete backend system for managing vehicle service appointments, mechanics, inventory, and customer feedback.
 
-## 🚀 Features
+Features
 
 ### Customer Features
 - Register and login
@@ -32,13 +32,13 @@ A complete backend system for managing vehicle service appointments, mechanics, 
 - Email notifications with PDF attachments
 - PDF generation for invoices and reports
 
-## 📋 Prerequisites
+## Prerequisites
 
 - Node.js (v14 or higher)
 - MongoDB (v4.4 or higher)
 - Gmail account (for email functionality)
 
-## 🛠️ Installation
+## Installation
 
 1. **Clone or download this project**
 
@@ -53,14 +53,14 @@ Edit the `.env` file with your settings:
 
 ```env
 PORT=5000
-MONGO_URI=mongodb://localhost:27017/vehicle-service-db
-JWT_SECRET=your_super_secret_key_here
+MONGO_URI=""
+JWT_SECRET=""
 JWT_EXPIRE=30d
 
 EMAIL_HOST=smtp.gmail.com
 EMAIL_PORT=587
 EMAIL_USER=your-email@gmail.com
-EMAIL_PASSWORD=your-app-password
+EMAIL_PASSWORD=""
 ```
 
 **Important**: For Gmail, you need to:
@@ -91,9 +91,9 @@ Production mode:
 npm start
 ```
 
-The server will start on `http://localhost:5000`
+The server will start on `your-url`
 
-## 📝 API Endpoints
+## API Endpoints
 
 ### Authentication
 - `POST /api/auth/register` - Register new user
@@ -142,91 +142,28 @@ The server will start on `http://localhost:5000`
 - `GET /api/settings` - Get settings
 - `PUT /api/settings` - Update settings
 
-## 🔑 User Roles
+## User Roles
 
 - **Customer**: Can manage vehicles, book appointments, and leave feedback
 - **Mechanic**: Can view assigned jobs and manage service work
 - **Manager**: Full system access including reports and settings
 
-## 📧 Testing Email Functionality
+## Testing Email Functionality
 
 1. Use a Gmail account
 2. Enable 2-factor authentication
 3. Generate an App Password: Google Account → Security → App passwords
 4. Use the app password in your .env file
 
-## 🧪 Testing the API
+## Testing the API
 
 You can use tools like:
 - Postman
 - Thunder Client (VS Code extension)
 - cURL commands
 
-Example login request:
-```bash
-curl -X POST http://localhost:5000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"user@example.com","password":"password123"}'
-```
 
-## 📁 Project Structure
 
-```
-backend/
-├── config/
-│   ├── db.js              # Database connection
-│   └── mail.js            # Email configuration
-├── models/
-│   ├── User.js
-│   ├── Vehicle.js
-│   ├── Appointment.js
-│   ├── Inventory.js
-│   ├── Feedback.js
-│   └── Settings.js
-├── controllers/
-│   ├── authController.js
-│   ├── vehicleController.js
-│   ├── appointmentController.js
-│   ├── inventoryController.js
-│   ├── managerController.js
-│   ├── mechanicController.js
-│   ├── feedbackController.js
-│   ├── reportController.js
-│   ├── settingsController.js
-│   └── userController.js
-├── routes/
-│   └── [All route files]
-├── middleware/
-│   └── auth.js            # Authentication middleware
-├── utils/
-│   ├── sendEmail.js
-│   ├── pdfGenerator.js
-│   └── checkOffPeak.js
-├── public/
-│   └── receipts/          # Generated PDF storage
-├── .env                   # Environment variables
-├── server.js              # Main server file
-└── package.json
-```
-
-## 🐛 Troubleshooting
-
-### MongoDB Connection Issues
-- Ensure MongoDB is running
-- Check the connection string in .env
-- Verify MongoDB port (default: 27017)
-
-### Email Not Sending
-- Verify Gmail app password is correct
-- Check EMAIL_USER and EMAIL_PASSWORD in .env
-- Ensure 2-factor authentication is enabled on Gmail
-
-### JWT Token Issues
-- Make sure JWT_SECRET is set in .env
-- Token expires after 30 days by default
-- Use Bearer token in Authorization header
-
-## 📄 License
 
 ISC
 
