@@ -105,6 +105,10 @@ const appointmentSchema = new mongoose.Schema(
   }
 );
 
+appointmentSchema.index({ customer: 1, date: -1 });
+appointmentSchema.index({ assignedMechanic: 1, status: 1 });
+appointmentSchema.index({ date: 1, time: 1 });
+
 const Appointment = mongoose.model('Appointment', appointmentSchema);
 
 export default Appointment;

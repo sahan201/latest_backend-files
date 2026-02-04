@@ -84,7 +84,7 @@ Details:
 - Date: ${date}
 - Time: ${time}
 - Booking ID: ${savedAppointment._id}
-${isDiscountEligible ? '\n🎉 Special Offer: 5% off-peak discount applied!' : ''}
+${isDiscountEligible ? '\n Special Offer: 5% off-peak discount applied!' : ''}
 
 Please find your booking confirmation attached.
 
@@ -184,26 +184,36 @@ export const getAppointmentById = async (req, res) => {
  */
 export const getAllAppointments = async (req, res) => {
   try {
-    let query = {};
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
 
-    // If mechanic, only show their assigned appointments
+    let query = {};
     if (req.user.role === 'Mechanic') {
       query.assignedMechanic = req.user._id;
     }
 
-    const appointments = await Appointment.find(query)
-      .populate('customer', 'name email')
-      .populate('vehicle', 'make model vehicleNo')
-      .populate('assignedMechanic', 'name email')
-      .sort({ date: -1, time: -1 });
+    const [appointments, total] = await Promise.all([
+      Appointment.find(query)
+        .populate('customer', 'name email')
+        .populate('vehicle', 'make model vehicleNo')
+        .populate('assignedMechanic', 'name email')
+        .sort({ date: -1, time: -1 })
+        .skip(skip)
+        .limit(limit),
+      Appointment.countDocuments(query),
+    ]);
 
     res.json({
       success: true,
       count: appointments.length,
+      total,
+      page,
+      pages: Math.ceil(total / limit),
       appointments,
     });
   } catch (error) {
-    console.error('Error fetching all appointments:', error);
+    console.error('Error fetching appointments:', error);
     res.status(500).json({ message: 'Server error' });
   }
 };

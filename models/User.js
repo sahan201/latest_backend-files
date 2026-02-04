@@ -44,6 +44,8 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+userSchema.index({ email: 1 }, { unique: true });
+
 // Method to compare passwords
 userSchema.methods.comparePassword = async function(candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);

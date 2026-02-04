@@ -34,6 +34,9 @@ const vehicleSchema = new mongoose.Schema(
   }
 );
 
+vehicleSchema.index({ customer: 1 });
+vehicleSchema.index({ vehicleNo: 1 }, { unique: true });
+
 const Vehicle = mongoose.model('Vehicle', vehicleSchema);
 
 export default Vehicle;

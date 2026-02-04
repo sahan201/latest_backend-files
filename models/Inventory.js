@@ -46,6 +46,9 @@ const inventorySchema = new mongoose.Schema(
   }
 );
 
+inventorySchema.index({ name: 1 }, { unique: true });
+inventorySchema.index({ quantity: 1 });
+
 const Inventory = mongoose.model("Inventory", inventorySchema);
 
 export default Inventory;
