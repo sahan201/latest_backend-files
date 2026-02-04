@@ -1,5 +1,5 @@
 const requiredEnvVars = [
-  'MONGODB_URI',
+  'MONGO_URI',
   'JWT_SECRET',
   'TWILIO_ACCOUNT_SID',
   'TWILIO_AUTH_TOKEN',
@@ -17,7 +17,7 @@ console.log('All required environment variables are set');
 
 module.exports = {
   port: process.env.PORT || 5000,
-  mongoUri: process.env.MONGODB_URI,
+  mongoUri: process.env.MONGO_URI,
   jwtSecret: process.env.JWT_SECRET,
   twilio: {
     accountSid: process.env.TWILIO_ACCOUNT_SID,

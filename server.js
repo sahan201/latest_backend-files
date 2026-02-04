@@ -9,7 +9,6 @@ import mongoSanitize from 'express-mongo-sanitize';
 import helmet from 'helmet';
 import ratelimit, { rateLimit } from 'express-rate-limit';
 
-
 // Import route files
 import authRoutes from "./routes/auth.js";
 import vehicleRoutes from "./routes/vehicles.js";
@@ -19,8 +18,8 @@ import managerRoutes from "./routes/manager.js";
 import mechanicRoutes from "./routes/mechanic.js";
 import feedbackRoutes from "./routes/feedback.js";
 import settingsRoutes from "./routes/settings.js";
-import complaintRoutes from "./routes/complaints.js"; // NEW
-import reportRoutes from "./routes/reports.js"; // NEW
+import complaintRoutes from "./routes/complaints.js";
+import reportRoutes from "./routes/reports.js";
 
 // Connect to database
 connectDB();
@@ -56,10 +55,9 @@ app.use("/api/manager", managerRoutes);
 app.use("/api/mechanic", mechanicRoutes);
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api/settings", settingsRoutes);
-app.use("/api/complaints", complaintRoutes); // NEW
-app.use("/api/reports", reportRoutes); // NEW
+app.use("/api/complaints", complaintRoutes);
+app.use("/api/reports", reportRoutes);
 
-// Basic route for testing
 app.get("/", (req, res) => {
   res.json({
     message: "Vehicle Service Center API",
