@@ -17,15 +17,11 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: 'User with this email already exists.' });
     }
 
-    // Hash the password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
     // Create new user - ALWAYS as Customer
     const user = await User.create({
       name,
       email,
-      password: hashedPassword,
+      password,
       role: 'Customer', // Fixed role - no selection allowed
     });
 
